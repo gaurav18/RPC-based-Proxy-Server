@@ -1,13 +1,12 @@
 #ifndef __CACHE_H
 #define __CACHE_H
 
+#include "common.h"
 #include <string>
 #include <unordered_map>
 #include <queue>
 #include <vector>
 #include <deque>
-
-enum CachePolicy { NOT_SET, RANDOM, FIFO, LRU };
 
 class Cache {
   private:
@@ -28,13 +27,14 @@ class Cache {
     std::deque<std::string> _deck;
 
     // Current policy
-    CachePolicy _policy;
+    common::CachePolicy _policy;
 
     // Variables for controlling cache size (in bytes / num of chars)
     int _size_max;
     int _size_remaining;
   public:
-    void init(CachePolicy p, int max_size);
+    void init(common::CachePolicy p, int max_size);
+    void flush();
     bool ready();
     int add(std::string url, std::string data);
     bool exists(std::string url);

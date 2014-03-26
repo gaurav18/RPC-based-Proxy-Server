@@ -6,14 +6,15 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
     return size * nmemb;
 }
 
-void Proxy::init() {
-    // Caching policy in place: NOT_SET, RANDOM, FIFO, or TBD
-    const CachePolicy policy = RANDOM;
-    
-    // Maximum cache size to store. Example: 2MB = 1024 * 1024 * 2 chars
-    const int cache_size = 2097152;
-    
+void Proxy::init(common::CachePolicy policy, int cache_size) {    
     // Initialize cache
+    this->_cache.init(policy, cache_size);
+    printf("\n\n> Proxy server initialized with cache policy %d and cache size %d\n\n", policy, cache_size);
+}
+
+void Proxy::restart_debug(common::CachePolicy policy, int cache_size) {
+    // Flush all data in cache and reinitialize with new values
+    this->_cache.flush();
     this->_cache.init(policy, cache_size);
 }
 
@@ -45,4 +46,8 @@ std::string Proxy::fetch(std::string url) {
             printf("Error adding entry to cache!\n");
         }
     }
+}
+
+void Proxy::dump_stats() {
+    printf("TODO: Placeholder.\n");
 }

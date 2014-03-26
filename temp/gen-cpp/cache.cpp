@@ -2,14 +2,24 @@
 #include <stdlib.h> // for rand
 
 // This function must be called before using the cache system
-void Cache::init(CachePolicy p, int max_size) {
-    if(p == NOT_SET || p == RANDOM || p == FIFO || p == LRU) {
+void Cache::init(common::CachePolicy p, int max_size) {
+    if(p == common::NOT_SET || p == common::RANDOM 
+        || p == common::FIFO || p == common::LRU) {
         this->_policy = p;
         this->_size_max = max_size;
         this->_size_remaining = max_size;
     } else {
         printf("Error: Invalid cache policy selected!\n");
     }
+}
+
+void Cache::flush() {
+    this->_cache_data.clear();
+    this->_vector.clear();
+    std::queue<std::string> empty;
+    std::swap(this->_queue, empty);
+    this->_deck.clear();
+    this->_size_remaining = this->_size_max;
 }
 
 int Cache::add(std::string url, std::string data) {
@@ -22,13 +32,13 @@ int Cache::add(std::string url, std::string data) {
     }
 
     switch(this->_policy) {
-        case NOT_SET:
+        case common::NOT_SET:
         // Never delete entries, keep adding indefinitely over max limit.
         // Yes, the size_remaining can go negative with this policy in place.
         // Nothing to do here, as no special deletion rules apply.
         break;
 
-        case RANDOM:
+        case common::RANDOM:
         // Delete entries at random till we have enough free space
         int random_element;
         while(size > this->_size_remaining) {
@@ -44,7 +54,7 @@ int Cache::add(std::string url, std::string data) {
         this->_vector.push_back(url);
         break;
 
-        case FIFO:
+        case common::FIFO:
         // Delete oldest entries till we have enough free space
         while(size > this->_size_remaining) {
             // Increment size remaining
@@ -57,7 +67,7 @@ int Cache::add(std::string url, std::string data) {
         this->_queue.push(url);
         break;
 
-        case LRU:
+        case common::LRU:
         // The back of the queue represents the least recently used (deletion)
         // The front of the queue is the most recently used (moved during addition)
         while(size > this->_size_remaining) {
@@ -87,7 +97,7 @@ bool Cache::exists(std::string url) {
 }
 
 std::string Cache::fetch(std::string url) {
-    if(this->_policy == LRU) {
+    if(this->_policy == common::LRU) {
         // Traverse back from the front (most recently used)
         // to the back (least recently used) of the deck
         for(auto i = this->_deck.begin(); i != this->_deck.end(); i++) {

@@ -1,4 +1,5 @@
 #include "Something.h"  // As an example
+#include "common.h"
 
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>

@@ -11,8 +11,10 @@ class Proxy {
     CURL* _curl_handle;
     CURLcode _curl_response;
   public:
-    void init();
+    void init(common::CachePolicy policy, int cache_size);
+    void restart_debug(common::CachePolicy policy, int cache_size);
     std::string fetch(std::string url);
+    void dump_stats();
 };
 
 #endif // __PROXY_H

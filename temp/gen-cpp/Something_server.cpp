@@ -22,8 +22,19 @@ class SomethingHandler : virtual public SomethingIf {
  public:
   Proxy proxy;
   SomethingHandler() {
-    proxy.init();
+    // Default values for initialization
+    common::CachePolicy policy = common::RANDOM;
+    common::CacheSize cache_size = common::TWO_MB;
+    proxy.init(policy, cache_size);
   }
+
+  /*
+   * TODO(Narang):
+   *    Add thrift functions for:
+   *      proxy.fetch(string); <-- replace ping with this one
+   *      proxy.restart_debug(common::CachePolicy, common::CacheSize); <-- add new one, this restarts proxy with new values
+   *      proxy.dump_stats(); <-- add new one, this dumps stats at the end of a batch
+   */
 
   void ping(std::string& _return, const std::string& s) {
     _return = proxy.fetch(s);
