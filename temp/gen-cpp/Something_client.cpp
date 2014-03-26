@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   std::string _ret;
   SomethingClient client(protocol);
   transport->open();
-  std::string send_string = "http://wiki.apache.org/thrift/ThriftUsageC++";
+  std::string send_string = "http://news.yahoo.com/";
   client.ping(_ret,send_string);
   transport->close();
   std::cout << _ret << std::endl;

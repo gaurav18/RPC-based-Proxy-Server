@@ -20,13 +20,13 @@ using namespace  ::Test;
 
 class SomethingHandler : virtual public SomethingIf {
  public:
+  Proxy proxy;
   SomethingHandler() {
-    Proxy proxy;
     proxy.init();
   }
 
   void ping(std::string& _return, const std::string& s) {
-    proxy.fetch(s);
+    _return = proxy.fetch(s);
   }
 
 };
