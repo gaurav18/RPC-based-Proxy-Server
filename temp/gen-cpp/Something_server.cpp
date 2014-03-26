@@ -27,6 +27,7 @@ class SomethingHandler : virtual public SomethingIf {
 
   void ping(std::string& _return, const std::string& s) {
     _return = proxy.fetch(s);
+    std::cout << s << std::endl;
   }
 
 };
