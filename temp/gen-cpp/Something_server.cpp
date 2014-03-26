@@ -7,7 +7,7 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <string>
-#include "../ProxyServer.h"
+#include "proxy.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -21,7 +21,7 @@ using namespace  ::Test;
 class SomethingHandler : virtual public SomethingIf {
  public:
   SomethingHandler() {
-    ProxyServer proxy;
+    Proxy proxy;
     proxy.init();
   }
 
