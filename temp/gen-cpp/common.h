@@ -1,9 +1,9 @@
 #ifndef __COMMON_H
 #define __COMMON_H
 
+// Common variables used by both server and client
 namespace common {
 
-    // Common enumerator used by both server and client
     enum CachePolicy { 
         NOT_SET,            // No cache policy, cache everything indefinitely
         RANDOM,             // Randomly delete older entries
