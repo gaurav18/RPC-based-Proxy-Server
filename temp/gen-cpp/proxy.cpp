@@ -30,7 +30,7 @@ std::string Proxy::fetch(std::string url) {
         if(this->_curl_handle) {
             curl_easy_setopt(this->_curl_handle, CURLOPT_URL, url.c_str());
             curl_easy_setopt(this->_curl_handle, CURLOPT_WRITEFUNCTION, WriteCallback);
-            curl_easy_setopt(this->_curl_handle, CURLOPT_WRITEDATA, &readBuffer);
+            curl_easy_setopt(this->_curl_handle, CURLOPT_WRITEDATA, &data);
             this->_curl_response = curl_easy_perform(this->_curl_handle);
             curl_easy_cleanup(this->_curl_handle);
         }
