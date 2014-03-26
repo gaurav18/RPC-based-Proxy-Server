@@ -23,11 +23,11 @@ class Cache {
     std::vector<std::string> _vector;
 
     // Current policy
-    CachePolicy _policy = NOT_SET;
+    CachePolicy _policy;
 
     // Variables for controlling cache size (in bytes / num of chars)
-    int _size_max = 0;
-    int _size_remaining = 0;
+    int _size_max;
+    int _size_remaining;
   public:
     void init(CachePolicy p, int max_size);
     bool ready();
