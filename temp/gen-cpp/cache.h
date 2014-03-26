@@ -3,7 +3,8 @@
 
 #include <string>
 #include <unordered_map>
-#include "cache.cpp"
+#include <queue>
+#include <vector>
 
 enum CachePolicy { NOT_SET, RANDOM, FIFO, TBD };
 
@@ -22,7 +23,7 @@ class Cache {
     std::vector<std::string> _vector;
 
     // Current policy
-    CachePolicy _policy = CachePolicy.NOT_SET;
+    CachePolicy _policy = NOT_SET;
 
     // Variables for controlling cache size (in bytes / num of chars)
     int _size_max = 0;
