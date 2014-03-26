@@ -11,7 +11,7 @@ using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
-using namespace Test;
+using namespace rpc;
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -38,6 +38,8 @@ int main(int argc, char **argv) {
 	    printf("%.100s\n", _ret.c_str()); // print first 100 characters of returned body of doc
 	    cout << endl;
 	}
+
+	client.dump_stats("batch1.txt");
 
 	infile.close();
 	transport->close();
