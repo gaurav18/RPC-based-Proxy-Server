@@ -34,8 +34,8 @@ int main()
 	infile.close();
 
 	// Creates a batch of randomly shuffled urls
-    random_shuffle(myLines.begin(), myLines.end());
-    write(myLines, batch1);
+	random_shuffle(myLines.begin(), myLines.end());
+	write(myLines, batch1);
 
     // Creates a batch of sorted urls
 	sort(myLines.begin(), myLines.end());

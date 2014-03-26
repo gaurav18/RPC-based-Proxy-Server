@@ -18,10 +18,13 @@ int main(int argc, char **argv) {
 	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
 	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
-	string file_name = "urls.txt";
+	string batch = "batch1.txt";
+	if (argv[1]) {
+		batch = argv[1];
+	}
 
 	ifstream infile;
-	infile.open (file_name);
+	infile.open (batch);
 	string _ret;
 	SomethingClient client(protocol);
 	transport->open();
@@ -29,9 +32,10 @@ int main(int argc, char **argv) {
 	for( std::string line; getline( infile, line ); ) // To get you all the lines.
 	{
 		_ret = "";
-	    cout << line; // Prints our STRING.
+	    cout << line; // Prints our url.
 	    client.ping(_ret,line);
-	    cout << _ret << endl;
+	    printf("%.100s\n", _ret.c_str()); // print first 100 characters of returned body of doc
+	    cout << endl;
 	}
 
 	infile.close();
