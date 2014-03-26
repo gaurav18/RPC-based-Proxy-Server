@@ -6,8 +6,8 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include <curl/curl.h>
 #include <string>
+#include "../ProxyServer.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -22,35 +22,12 @@ class SomethingHandler : virtual public SomethingIf {
  public:
   SomethingHandler() {
     // Your initialization goes here
+    ProxyServer proxy;
+    proxy.init();
   }
-
-  static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-  {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
-  }
-
+  
   void ping(std::string& _return, const std::string& s) {
-    // Your implementation goes here
-    std::cout << "ping" << std::endl;
-    CURL *curl;
-    CURLcode res;
-    std::string readBuffer;
-
-    std::cout << "test: " << s << std::endl;
-
-    std::string curl_string;
-    curl = curl_easy_init();
-    if(curl) {
-      curl_easy_setopt(curl, CURLOPT_URL, s.c_str());
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-      res = curl_easy_perform(curl);
-      curl_easy_cleanup(curl);
-
-      std::cout << readBuffer << std::endl;
-      _return = readBuffer;
-    }
+    proxy.fetch(s);
   }
 
 };
