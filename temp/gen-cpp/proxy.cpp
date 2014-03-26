@@ -69,11 +69,12 @@ std::string Proxy::fetch(std::string url) {
     this->_debug_total_time += time_elapsed;
 }
 
-void Proxy::dump_stats() {
-    printf("\n\n ------------------------------------ \n\n");
-    printf("Total number of requests: %d\n", this->_debug_total_requests);
-    printf("Number of cache hits: %d\n", this->_debug_cache_hits);
-    printf("Number of fresh lookups: %d\n", (this->_debug_total_requests - this->_debug_cache_hits));
-    printf("Average elapsed time per request: %f\n", (this->_debug_total_time / _debug_total_requests));
-    printf("\n\n ------------------------------------ \n\n");
+void Proxy::dump_stats(std::string message) {
+    printf("\n\n ----------------------------------------------- \n\n");
+    printf("  %s\n", message.c_str());
+    printf("  Total number of requests: %d\n", this->_debug_total_requests);
+    printf("  Number of cache hits: %d\n", this->_debug_cache_hits);
+    printf("  Number of fresh lookups: %d\n", (this->_debug_total_requests - this->_debug_cache_hits));
+    printf("  Average elapsed time per request: %f\n", (this->_debug_total_time / _debug_total_requests));
+    printf("\n\n ----------------------------------------------- \n\n");
 }

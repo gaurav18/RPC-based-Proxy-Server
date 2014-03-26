@@ -21,7 +21,7 @@ class Proxy {
     void init(common::CachePolicy policy, int cache_size);
     void restart_debug(common::CachePolicy policy, int cache_size);
     std::string fetch(std::string url);
-    void dump_stats();
+    void dump_stats(std::string message);
 };
 
 #endif // __PROXY_H
