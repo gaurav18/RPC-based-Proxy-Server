@@ -35,8 +35,6 @@ class rpc_serviceHandler : virtual public rpc_serviceIf {
   }
 
   void restart_debug(const int32_t cache_policy, const int32_t cache_size) {
-    
-    
     proxy.restart_debug(cache_policy, cache_size);
   }
 
