@@ -67,7 +67,6 @@ int Cache::add(std::string url, std::string data) {
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
         }
-        printf("Error: Third policy not yet implemented!\n");
         break;
         
         default:
