@@ -1,4 +1,4 @@
-#include "proxy.cpp"
+#include "proxy.h"
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -36,9 +36,13 @@ std::string ProxyServer::fetch(std::string url) {
         }
 
         // Add to cache
-        this._cache.add(url, data);
+        int result = this._cache.add(url, data);
 
         // Return http data
-        return this._cache.fetch(url); // TODO: change to data after testing
+        if(result == 1) {
+            return data;
+        } else {
+            printf("Error adding entry to cache!\n");
+        }
     }
 }

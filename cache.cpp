@@ -7,7 +7,7 @@ void Cache::init(CachePolicy p, int max_size) {
         this._size_max = max_size;
         this._size_remaining = max_size;
     } else {
-        printf("Error: Invalid cache policy selected!");
+        printf("Error: Invalid cache policy selected!\n");
     }
 }
 
@@ -16,7 +16,7 @@ int Cache::add(std::string url, std::string data) {
     int size = data.size();
     
     if(size > this._size_max) {
-        printf("Warning: Could not add page to cache, size greater than total cache max.");
+        printf("Warning: Could not add page to cache, size greater than total cache max.\n");
         return 0;
     }
 
@@ -58,7 +58,7 @@ int Cache::add(std::string url, std::string data) {
 
         case CachePolicy.TBD:
         // TODO
-        printf("Error: Third policy not yet implemented!");
+        printf("Error: Third policy not yet implemented!\n");
         break;
         
         default:

@@ -21,11 +21,10 @@ using namespace  ::Test;
 class SomethingHandler : virtual public SomethingIf {
  public:
   SomethingHandler() {
-    // Your initialization goes here
     ProxyServer proxy;
     proxy.init();
   }
-  
+
   void ping(std::string& _return, const std::string& s) {
     proxy.fetch(s);
   }
