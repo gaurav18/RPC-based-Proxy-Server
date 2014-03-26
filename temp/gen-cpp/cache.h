@@ -5,8 +5,9 @@
 #include <unordered_map>
 #include <queue>
 #include <vector>
+#include <deque>
 
-enum CachePolicy { NOT_SET, RANDOM, FIFO, TBD };
+enum CachePolicy { NOT_SET, RANDOM, FIFO, LRU };
 
 class Cache {
   private:
@@ -21,6 +22,10 @@ class Cache {
     // A vector of URL strings to fetch a random key from
     // Used for Random elimination
     std::vector<std::string> _vector;
+
+    // A deque of URL strings to order by least recently used
+    // Used for LRU elimination
+    std::deque<std::string> _deck;
 
     // Current policy
     CachePolicy _policy;
