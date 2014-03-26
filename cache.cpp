@@ -2,89 +2,82 @@
 #include <stdlib.h> // for rand
 
 void Cache::init(CachePolicy p, int max_size) {
-	if(p == CachePolicy.RANDOM || p == CachePolicy.FIFO || p == CachePolicy.TBD) {
-		this._policy = p;
-		this._size_max = max_size;
-		this._size_remaining = max_size;
-	} else {
-		printf("Error: Invalid cache policy selected!");
-	}
-}
-
-bool Cache::ready() {
-	if(this._policy == CachePolicy.NOT_SET) {
-		return false;
-	}else {
-		return true;
-	}
+    if(p == CachePolicy.NOT_SET || p == CachePolicy.RANDOM || p == CachePolicy.FIFO || p == CachePolicy.TBD) {
+        this._policy = p;
+        this._size_max = max_size;
+        this._size_remaining = max_size;
+    } else {
+        printf("Error: Invalid cache policy selected!");
+    }
 }
 
 int Cache::add(std::string url, std::string data) {
-	if(!ready()) {
-		printf("Error: Cache not initialized! Aborting operation.");
-		return 0;
-	}
+    // Check if we have enough room to add new entry
+    int size = data.size();
+    
+    if(size > this._size_max) {
+        printf("Warning: Could not add page to cache, size greater than total cache max.");
+        return 0;
+    }
 
-	// Check if we have enough room to add new entry
-	int size = data.size();
-	
-	if(size > this._size_max) {
-		printf("Warning: Could not add page to cache, size greater than total cache max.");
-		return 0;
-	}
+    switch(this._policy) {
+        case CachePolicy.NOT_SET:
+        // Never delete entries, keep adding indefinitely over max limit.
+        // Yes, the size_remaining can go negative with this policy in place.
+        // Nothing to do here, as no special deletion rules apply.
+        break;
 
-	switch(this._policy) {
-		case CachePolicy.RANDOM:
-		// Delete entries at random till we have enough free space
-		int random_element;
-		while(size > this._size_remaining) {
-			// Select random element
-			random_element = std::rand() % this._vector.size();
-			// Increment size remaining
-			this._size_remaining += this._cache_data[ this._vector[random_element] ].size();
-			// Remove from data structures
-			this._cache_data.erase(this._vector[random_element])
-			this._vector.erase(random_element);
-		}
-		// We have enough space now
-		this._vector.push_back(url);
-		break;
+        case CachePolicy.RANDOM:
+        // Delete entries at random till we have enough free space
+        int random_element;
+        while(size > this._size_remaining) {
+            // Select random element
+            random_element = std::rand() % this._vector.size();
+            // Increment size remaining
+            this._size_remaining += this._cache_data[ this._vector[random_element] ].size();
+            // Remove from data structures
+            this._cache_data.erase(this._vector[random_element])
+            this._vector.erase(random_element);
+        }
+        // We have enough space now
+        this._vector.push_back(url);
+        break;
 
-		case CachePolicy.FIFO:
-		// Delete oldest entries till we have enough free space
-		while(size > this._size_remaining) {
-			// Increment size remaining
-			this._size_remaining += this._queue.front().size();
-			// Remove from data structures
-			this._cache_data.erase(this._queue.front());
-			this._queue.pop_front();
-		}
-		// We have enough space now
-		this._queue.push(url);
-		break;
+        case CachePolicy.FIFO:
+        // Delete oldest entries till we have enough free space
+        while(size > this._size_remaining) {
+            // Increment size remaining
+            this._size_remaining += this._queue.front().size();
+            // Remove from data structures
+            this._cache_data.erase(this._queue.front());
+            this._queue.pop_front();
+        }
+        // We have enough space now
+        this._queue.push(url);
+        break;
 
-		case CachePolicy.TBD:
-		// TODO
-		printf("Error: Third policy not yet implemented!");
-		break;
-		
-		default:
-		// No default case.
-		break;
-	}
+        case CachePolicy.TBD:
+        // TODO
+        printf("Error: Third policy not yet implemented!");
+        break;
+        
+        default:
+        // No default case.
+        break;
+    }
 
-	// If we reached this point, the appropriate cache policy was executed
-	// Go ahead and update main cache data structure
-	this._size_remaining -= size;
-	this._cache_data[url] = data;
-	return 1;
+    // If we reached this point, the appropriate cache policy was executed
+    // Go ahead and update main cache data structure
+    this._size_remaining -= size;
+    this._cache_data[url] = data;
+    return 1;
 }
 
 bool Cache::exists(std::string url) {
-	// Returns 1 if found, 0 if not
-	return this._cache_data.count(url);
+    // Returns 1 if found, 0 if not
+    return this._cache_data.count(url);
 }
 
 std::string Cache::fetch(std::string url) {
-	return this._cache_data[url];
+    return this._cache_data[url];
 }
