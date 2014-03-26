@@ -34,7 +34,7 @@ class Cache {
     int _size_remaining;
   public:
     void init(common::CachePolicy p, int max_size);
-    void flush();
+    void flush_debug();
     bool ready();
     int add(std::string url, std::string data);
     bool exists(std::string url);

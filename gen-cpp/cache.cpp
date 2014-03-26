@@ -13,7 +13,8 @@ void Cache::init(common::CachePolicy p, int max_size) {
     }
 }
 
-void Cache::flush() {
+// Debug function that flushes cache data, but does not alter init(). Used only for testing.
+void Cache::flush_debug() {
     this->_cache_data.clear();
     this->_vector.clear();
     std::queue<std::string> empty;
@@ -34,7 +35,6 @@ int Cache::add(std::string url, std::string data) {
     switch(this->_policy) {
         case common::NOT_SET:
         // Never delete entries, keep adding indefinitely over max limit.
-        // Yes, the size_remaining can go negative with this policy in place.
         // Nothing to do here, as no special deletion rules apply.
         break;
 
@@ -88,6 +88,13 @@ int Cache::add(std::string url, std::string data) {
     // Go ahead and update main cache data structure
     this->_size_remaining -= size;
     this->_cache_data[url] = data;
+
+    // Sanity check: floor size remaining at -1
+    if(this->_size_remaining < -1) {
+        this->_size_remaining = -1;
+    }
+
+    // All done, return success
     return 1;
 }
 

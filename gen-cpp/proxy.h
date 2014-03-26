@@ -6,15 +6,22 @@
 
 class Proxy {
   private:
+    // Our main cache handle
     Cache _cache;
     
+    // Curl variables
     CURL* _curl_handle;
     CURLcode _curl_response;
+
+    // Testing data
+    int _debug_total_requests;
+    int _debug_cache_hits;
+    double _debug_total_time;
   public:
     void init(common::CachePolicy policy, int cache_size);
     void restart_debug(common::CachePolicy policy, int cache_size);
     std::string fetch(std::string url);
-    void dump_stats();
+    void dump_stats(std::string message);
 };
 
 #endif // __PROXY_H
