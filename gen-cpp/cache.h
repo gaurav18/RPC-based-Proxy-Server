@@ -32,6 +32,10 @@ class Cache {
     // Variables for controlling cache size (in bytes / num of chars)
     int _size_max;
     int _size_remaining;
+
+    // Testing data
+    int _debug_num_replacements;
+
   public:
     void init(common::CachePolicy p, int max_size);
     void flush_debug();
@@ -39,6 +43,7 @@ class Cache {
     int add(std::string url, std::string data);
     bool exists(std::string url);
     std::string fetch(std::string url);
+    void dump_stats();
 };
 
 #endif // __CACHE_H

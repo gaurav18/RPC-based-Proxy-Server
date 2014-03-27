@@ -8,6 +8,9 @@ void Cache::init(common::CachePolicy p, int max_size) {
         this->_policy = p;
         this->_size_max = max_size;
         this->_size_remaining = max_size;
+        this->_debug_num_replacements = 0;
+        printf("# TODO(remove, @init): Max Size: %d\n", this->_size_max);
+        printf("# TODO(remove, @init): Size Remaining: %d\n", this->_size_remaining);
     } else {
         printf("Error: Invalid cache policy selected!\n");
     }
@@ -46,9 +49,11 @@ int Cache::add(std::string url, std::string data) {
             random_element = rand() % this->_vector.size();
             // Increment size remaining
             this->_size_remaining += this->_cache_data[ this->_vector[random_element] ].size();
+            printf("# TODO(remove, @add): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_vector[random_element]);
             this->_vector.erase(this->_vector.begin() + random_element);
+            this->_debug_num_replacements++;
         }
         // We have enough space now
         this->_vector.push_back(url);
@@ -62,6 +67,7 @@ int Cache::add(std::string url, std::string data) {
             // Remove from data structures
             this->_cache_data.erase(this->_queue.front());
             this->_queue.pop();
+            this->_debug_num_replacements++;
         }
         // We have enough space now
         this->_queue.push(url);
@@ -76,6 +82,7 @@ int Cache::add(std::string url, std::string data) {
             // Remove from data structures
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
+            this->_debug_num_replacements++;
         }
         break;
         
@@ -87,6 +94,7 @@ int Cache::add(std::string url, std::string data) {
     // If we reached this point, the appropriate cache policy was executed
     // Go ahead and update main cache data structure
     this->_size_remaining -= size;
+    printf("# TODO(remove, @add): Size remaining decreased by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
     this->_cache_data[url] = data;
 
     // Sanity check: floor size remaining at -1
@@ -127,3 +135,10 @@ std::string Cache::fetch(std::string url) {
 
     return this->_cache_data[url];
 }
+
+void Cache::dump_stats() {
+    // This stat isn't necessarily 1:1. A big incoming entry might warrant deleting 3 older cache entries to make enough space.
+    printf("  Number of cache entries deleted for replacement: %d\n", this->_debug_num_replacements;
+    printf("  Size remaining in cache: %d\n", this->_size_remaining);
+}
+
