@@ -13,17 +13,17 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     const std::vector<std::string> batch_files;
 
     // Populate test variables
-    cache_policies.push_back(NOT_SET);
-    cache_policies.push_back(RANDOM);
-    cache_policies.push_back(FIFO);
-    cache_policies.push_back(LRU);
+    cache_policies.push_back(common::NOT_SET);
+    cache_policies.push_back(common::RANDOM);
+    cache_policies.push_back(common::FIFO);
+    cache_policies.push_back(common::LRU);
 
-    cache_sizes.push_back(HALF_MB);
-    cache_sizes.push_back(ONE_MB);
-    cache_sizes.push_back(THREE_MB);
+    cache_sizes.push_back(common::HALF_MB);
+    cache_sizes.push_back(common::ONE_MB);
+    cache_sizes.push_back(common::THREE_MB);
 
-    batch_files.push_back("batch1.txt");
-    batch_files.push_back("batch2.txt");
+    batch_files.push_back(new std::string("batch1.txt"));
+    batch_files.push_back(new std::string("batch2.txt"));
 
     // Other variables
     std::string return_value;
@@ -42,9 +42,9 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
                 rpc_handle->restart_debug(policy, size);
                 
                 // Process each line in the batch file (1 url per line)
-                ifstream infile;
+                std::ifstream infile;
                 infile.open(file);
-                for(std::string line; getline( infile, line );/**/) {
+                for(std::string line; getline(infile, line);/**/) {
                     return_value = "";
                     // Query the proxy server
                     rpc_handle->fetch(return_value, line);
