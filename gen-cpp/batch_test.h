@@ -8,9 +8,9 @@
 // We pipe the output of dump_stats() on server side to a text file to analyze the results.
 void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     // Variables to store our test values
-    const std::vector<common::CachePolicy> cache_policies;
-    const std::vector<common::CacheSize> cache_sizes;
-    const std::vector<std::string> batch_files;
+    std::vector<common::CachePolicy> cache_policies;
+    std::vector<common::CacheSize> cache_sizes;
+    std::vector<std::string> batch_files;
 
     // Populate test variables
     cache_policies.push_back(common::NOT_SET);
