@@ -138,7 +138,7 @@ std::string Cache::fetch(std::string url) {
 
 void Cache::dump_stats() {
     // This stat isn't necessarily 1:1. A big incoming entry might warrant deleting 3 older cache entries to make enough space.
-    printf("  Number of cache entries deleted for replacement: %d\n", this->_debug_num_replacements;
+    printf("  Number of cache entries deleted for replacement: %d\n", this->_debug_num_replacements);
     printf("  Size remaining in cache: %d\n", this->_size_remaining);
 }
 
