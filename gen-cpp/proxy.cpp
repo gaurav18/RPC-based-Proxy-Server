@@ -21,7 +21,7 @@ void Proxy::init(common::CachePolicy policy, int cache_size) {
 }
 
 // Debug function that restarts the proxy service. Used only for testing.
-void Proxy::restart_debug(common::CachePolicy policy, int cache_size) {
+void Proxy::restart_debug(common::CachePolicy policy, common::CacheSize cache_size) {
     // Flush all data in cache and reinitialize with new values
     this->_cache.flush_debug();
     this->init(policy, cache_size);

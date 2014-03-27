@@ -18,8 +18,8 @@ class Proxy {
     int _debug_cache_hits;
     double _debug_total_time;
   public:
-    void init(common::CachePolicy policy, int cache_size);
-    void restart_debug(common::CachePolicy policy, int cache_size);
+    void init(common::CachePolicy policy, common::CacheSize cache_size);
+    void restart_debug(common::CachePolicy policy, common::CacheSize cache_size);
     std::string fetch(std::string url);
     void dump_stats(std::string message);
 };
