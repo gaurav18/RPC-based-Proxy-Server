@@ -5,8 +5,6 @@
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>
 #include <protocol/TBinaryProtocol.h>
-#include <iostream>
-#include <fstream>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;

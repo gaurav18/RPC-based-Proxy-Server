@@ -1,12 +1,15 @@
+#include "rpc_service.h"
 #include "common.h"
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 // A client-side function that runs all of our test scenarios. Called from: rpc_service_client.cpp
 // We pipe the output of dump_stats() on server side to a text file to analyze the results.
-void batch_test(rpc_serviceClient* rpc_handle) {
+void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     // Variables to store our test values
-    const std::vector<CachePolicy> cache_policies;
-    const std::vector<CacheSize> cache_sizes;
+    const std::vector<common::CachePolicy> cache_policies;
+    const std::vector<common::CacheSize> cache_sizes;
     const std::vector<std::string> batch_files;
 
     // Populate test variables
@@ -36,7 +39,7 @@ void batch_test(rpc_serviceClient* rpc_handle) {
             // For each batch file
             for(auto& file : batch_files) {
                 // Restart the proxy server, flush previous cache to get fresh stats
-                rpc_handle.restart_debug(policy, size);
+                rpc_handle->restart_debug(policy, size);
                 
                 // Process each line in the batch file (1 url per line)
                 ifstream infile;
@@ -44,14 +47,14 @@ void batch_test(rpc_serviceClient* rpc_handle) {
                 for(std::string line; getline( infile, line );/**/) {
                     return_value = "";
                     // Query the proxy server
-                    rpc_handle.fetch(return_value, line);
+                    rpc_handle->fetch(return_value, line);
                 }
                 
                 // Cleanup
                 infile.close();
 
                 // Dump stats to console on server side (this is a debug function)
-                rpc_handle.dump_stats(file);
+                rpc_handle->dump_stats(file);
             }
         }
     }
