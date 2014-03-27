@@ -32,7 +32,6 @@ std::string Proxy::fetch(std::string url) {
     clock_t start_time = clock();
     std::string data;
     int result;
-
     // -- Start fetch process
 
     // Check if url already exists in cache
@@ -59,7 +58,6 @@ std::string Proxy::fetch(std::string url) {
     }
 
     // -- End fetch process
-
     clock_t end_time = clock();
     double time_elapsed = double(end_time - start_time) / CLOCKS_PER_SEC;
     this->_debug_total_time += time_elapsed;
