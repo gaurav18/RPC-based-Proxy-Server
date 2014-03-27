@@ -30,6 +30,8 @@ void Proxy::restart_debug(common::CachePolicy policy, common::CacheSize cache_si
 std::string Proxy::fetch(std::string url) {
     this->_debug_total_requests++;
     clock_t start_time = clock();
+    std::string data;
+    int result;
 
     // -- Start fetch process
 
@@ -40,8 +42,6 @@ std::string Proxy::fetch(std::string url) {
         return this->_cache.fetch(url);
     } else {
         // Not found, fetch http data
-        std::string data;
-        
         this->_curl_handle = curl_easy_init();
         if(this->_curl_handle) {
             curl_easy_setopt(this->_curl_handle, CURLOPT_URL, url.c_str());
@@ -53,14 +53,9 @@ std::string Proxy::fetch(std::string url) {
         }
 
         // Add to cache
-        int result = this->_cache.add(url, data);
+        result = this->_cache.add(url, data);
 
         // Return http data
-        if(result == 1) {
-            return data;
-        } else {
-            printf("Error adding entry to cache!\n");
-        }
     }
 
     // -- End fetch process
@@ -68,6 +63,12 @@ std::string Proxy::fetch(std::string url) {
     clock_t end_time = clock();
     double time_elapsed = double(end_time - start_time) / CLOCKS_PER_SEC;
     this->_debug_total_time += time_elapsed;
+    
+    if(result == 1) {
+        return data;
+    } else {
+        printf("Error adding entry to cache!\n");
+    }
 }
 
 void Proxy::dump_stats(std::string message) {
