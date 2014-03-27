@@ -45,7 +45,7 @@ class rpc_serviceHandler : virtual public rpc_serviceIf {
 };
 
 int main(int argc, char **argv) {
-  int port = 9090;
+  int port = 9091;
   shared_ptr<rpc_serviceHandler> handler(new rpc_serviceHandler());
   shared_ptr<TProcessor> processor(new rpc_serviceProcessor(handler));
   shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));

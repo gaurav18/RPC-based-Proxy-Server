@@ -22,8 +22,8 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     cache_sizes.push_back(common::ONE_MB);
     cache_sizes.push_back(common::THREE_MB);
 
-    batch_files.push_back(new std::string("batch1.txt"));
-    batch_files.push_back(new std::string("batch2.txt"));
+    batch_files.push_back("batch1.txt");
+    batch_files.push_back("batch2.txt");
 
     // Other variables
     std::string return_value;
@@ -33,7 +33,7 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
      */
 
     // For each cache policy...
-    for(auto& policy : cache_polices) {
+    for(auto& policy : cache_policies) {
         // For each cache size
         for(auto& size : cache_sizes) {
             // For each batch file
