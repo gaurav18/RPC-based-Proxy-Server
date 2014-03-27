@@ -75,7 +75,7 @@ void Proxy::dump_stats(std::string message) {
     printf("  Total number of requests: %d\n", this->_debug_total_requests);
     printf("  Number of cache hits: %d\n", this->_debug_cache_hits);
     printf("  Number of fresh lookups: %d\n", (this->_debug_total_requests - this->_debug_cache_hits));
-    this->_cache.dump_stats();
     printf("  Average elapsed time per request: %f\n", (this->_debug_total_time / _debug_total_requests));
+    this->_cache.dump_stats();
     printf("\n\n ----------------------------------------------- \n\n");
 }
