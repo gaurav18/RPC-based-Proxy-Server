@@ -9,8 +9,6 @@ void Cache::init(common::CachePolicy p, int max_size) {
         this->_size_max = max_size;
         this->_size_remaining = max_size;
         this->_debug_num_replacements = 0;
-        printf("# TODO(remove, @init): Max Size: %d\n", this->_size_max);
-        printf("# TODO(remove, @init): Size Remaining: %d\n", this->_size_remaining);
     } else {
         printf("Error: Invalid cache policy selected!\n");
     }
@@ -49,7 +47,7 @@ int Cache::add(std::string url, std::string data) {
             random_element = rand() % this->_vector.size();
             // Increment size remaining
             this->_size_remaining += this->_cache_data[ this->_vector[random_element] ].size();
-            printf("# TODO(remove, @add): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
+            //printf("# TODO(remove, @add): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_vector[random_element]);
             this->_vector.erase(this->_vector.begin() + random_element);
@@ -97,7 +95,7 @@ int Cache::add(std::string url, std::string data) {
     printf("# TODO(remove, @add): Size remaining decreased by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
     this->_cache_data[url] = data;
 
-    // Sanity check: floor size remaining at -1
+    // Sanity check: floor size remaining at -1 for NOT_SET cache policies
     if(this->_size_remaining < -1) {
         this->_size_remaining = -1;
     }
