@@ -76,7 +76,7 @@ int Cache::add(std::string url, std::string data) {
         // The front of the queue is the most recently used (moved during addition)
         while(size > this->_size_remaining) {
             printf("Entered loop for LRU\n");
-            printf("Deck Back: %s\n", this->_deck.back());
+            printf("Deck Back: %s\n", this->_deck.back().c_str());
             printf("Deck Back Data Size: %d\n", this->_cache_data[ this->_deck.back() ].size());
             // Increment size remaining
             this->_size_remaining += this->_cache_data[ this->_deck.back() ].size();
@@ -87,6 +87,8 @@ int Cache::add(std::string url, std::string data) {
             this->_debug_num_replacements++;
             printf("#TODO (remove, @LRU): Deque popped once, %d total removals", this->_debug_num_replacements); // TODO REMOVE
         }
+        // We have enough space now
+        this->_deck.push_front(url);
         break;
         
         default:

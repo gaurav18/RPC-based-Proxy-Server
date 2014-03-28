@@ -15,7 +15,7 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     // Populate test variables
     //cache_policies.push_back(common::NOT_SET);
     //cache_policies.push_back(common::RANDOM);
-    cache_policies.push_back(common::FIFO);
+    //cache_policies.push_back(common::FIFO);
     cache_policies.push_back(common::LRU);
 
     cache_sizes.push_back(common::HALF_MB);
