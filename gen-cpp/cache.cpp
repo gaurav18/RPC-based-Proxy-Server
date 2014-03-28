@@ -60,11 +60,10 @@ int Cache::add(std::string url, std::string data) {
         case common::FIFO:
         // Delete oldest entries till we have enough free space
         printf("FIFO: Size = %d, Size Remaining = %d\n", size, this->_size_remaining);
-
         while(size > this->_size_remaining) {
             // Increment size remaining
-            this->_size_remaining += this->_queue.front().size();
-            printf("# TODO(remove, @FIFO): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
+            this->_size_remaining += this->_cache_data[ this->_queue.front() ].size();
+            printf("# TODO(remove, @FIFO): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_queue.front() ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_queue.front());
             this->_queue.pop();
@@ -82,8 +81,8 @@ int Cache::add(std::string url, std::string data) {
         // The front of the queue is the most recently used (moved during addition)
         while(size > this->_size_remaining) {
             // Increment size remaining
-            this->_size_remaining += this->_queue.front().size();
-            printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
+            this->_size_remaining += this->_cache_data[ this->_deck.back() ];
+            printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_deck.back() ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
