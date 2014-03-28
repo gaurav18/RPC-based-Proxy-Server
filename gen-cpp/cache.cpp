@@ -32,7 +32,6 @@ int Cache::add(std::string url, std::string data) {
         printf("Warning: Could not add page to cache, size greater than total cache max.\n");
         return 0;
     }
-    printf("--- entered add() ---\n"); // TODO REMOVE
     switch(this->_policy) {
         case common::NOT_SET:
         // Never delete entries, keep adding indefinitely over max limit.
@@ -59,29 +58,28 @@ int Cache::add(std::string url, std::string data) {
 
         case common::FIFO:
         // Delete oldest entries till we have enough free space
-        printf("FIFO: Size = %d, Size Remaining = %d\n", size, this->_size_remaining);
         while(size > this->_size_remaining) {
             // Increment size remaining
             this->_size_remaining += this->_cache_data[ this->_queue.front() ].size();
-            printf("# TODO(remove, @FIFO): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_queue.front() ].size());
+            //printf("# TODO(remove, @FIFO): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_queue.front() ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_queue.front());
             this->_queue.pop();
             this->_debug_num_replacements++;
-            printf("#TODO (remove, @FIFO): Queue popped once, %d total removals", this->_debug_num_replacements); // TODO REMOVE
         }
         // We have enough space now
         this->_queue.push(url);
-        printf("Queue Front: %s\n", this->_queue.front().c_str());
-        printf("Queue Front Size: %d\n", this->_queue.front().size());
         break;
 
         case common::LRU:
         // The back of the queue represents the least recently used (deletion)
         // The front of the queue is the most recently used (moved during addition)
         while(size > this->_size_remaining) {
+            printf("Entered loop for LRU\n");
+            printf("Deck Back: %s\n", this->_deck.back());
+            printf("Deck Back Data Size: %d\n", this->_cache_data[ this->_deck.back() ].size());
             // Increment size remaining
-            this->_size_remaining += this->_cache_data[ this->_deck.back() ];
+            this->_size_remaining += this->_cache_data[ this->_deck.back() ].size();
             printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_deck.back() ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_deck.back());
