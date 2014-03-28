@@ -60,7 +60,7 @@ int Cache::add(std::string url, std::string data) {
         case common::FIFO:
         // Delete oldest entries till we have enough free space
         printf("FIFO: Size = %d, Size Remaining = %d\n", size, this->_size_remaining);
-        printf("Queue Front: %s\n", this->_queue.front());
+
         while(size > this->_size_remaining) {
             // Increment size remaining
             this->_size_remaining += this->_queue.front().size();
@@ -73,6 +73,8 @@ int Cache::add(std::string url, std::string data) {
         }
         // We have enough space now
         this->_queue.push(url);
+        printf("Queue Front: %s\n", this->_queue.front().c_str());
+        printf("Queue Front Size: %d\n", this->_queue.front().size());
         break;
 
         case common::LRU:
