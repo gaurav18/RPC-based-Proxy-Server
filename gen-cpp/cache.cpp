@@ -32,7 +32,7 @@ int Cache::add(std::string url, std::string data) {
         printf("Warning: Could not add page to cache, size greater than total cache max.\n");
         return 0;
     }
-
+    printf("--- entered add() ---\n"); // TODO REMOVE
     switch(this->_policy) {
         case common::NOT_SET:
         // Never delete entries, keep adding indefinitely over max limit.
@@ -59,6 +59,7 @@ int Cache::add(std::string url, std::string data) {
 
         case common::FIFO:
         // Delete oldest entries till we have enough free space
+        printf("FIFO: Size = %d, Size Remaining = %d\n", size, this->_size_remaining);
         while(size > this->_size_remaining) {
             // Increment size remaining
             this->_size_remaining += this->_queue.front().size();
@@ -67,7 +68,7 @@ int Cache::add(std::string url, std::string data) {
             this->_cache_data.erase(this->_queue.front());
             this->_queue.pop();
             this->_debug_num_replacements++;
-            printf("#TODO (remove, @FIFO): Queue popped once, %d total removals", this->_debug_num_replacements);
+            printf("#TODO (remove, @FIFO): Queue popped once, %d total removals", this->_debug_num_replacements); // TODO REMOVE
         }
         // We have enough space now
         this->_queue.push(url);
@@ -84,7 +85,7 @@ int Cache::add(std::string url, std::string data) {
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
             this->_debug_num_replacements++;
-            printf("#TODO (remove, @LRU): Deque popped once, %d total removals", this->_debug_num_replacements);
+            printf("#TODO (remove, @LRU): Deque popped once, %d total removals", this->_debug_num_replacements); // TODO REMOVE
         }
         break;
         
