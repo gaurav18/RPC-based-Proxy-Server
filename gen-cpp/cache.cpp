@@ -75,17 +75,13 @@ int Cache::add(std::string url, std::string data) {
         // The back of the queue represents the least recently used (deletion)
         // The front of the queue is the most recently used (moved during addition)
         while(size > this->_size_remaining) {
-            printf("Entered loop for LRU\n");
-            printf("Deck Back: %s\n", this->_deck.back().c_str());
-            printf("Deck Back Data Size: %d\n", this->_cache_data[ this->_deck.back() ].size());
             // Increment size remaining
             this->_size_remaining += this->_cache_data[ this->_deck.back() ].size();
-            printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_deck.back() ].size());
+            //printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_deck.back() ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
             this->_debug_num_replacements++;
-            printf("#TODO (remove, @LRU): Deque popped once, %d total removals", this->_debug_num_replacements); // TODO REMOVE
         }
         // We have enough space now
         this->_deck.push_front(url);
@@ -100,7 +96,7 @@ int Cache::add(std::string url, std::string data) {
     // Go ahead and update main cache data structure
     this->_size_remaining -= size;
     this->_cache_data[url] = data;
-    printf("# TODO(remove, @ALL): Size remaining DECREASED by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
+    //printf("# TODO(remove, @ALL): Size remaining DECREASED by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
 
     // Sanity check: floor size remaining at -1 for NOT_SET cache policies
     if(this->_size_remaining < -1) {
