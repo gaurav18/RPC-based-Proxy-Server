@@ -62,11 +62,12 @@ int Cache::add(std::string url, std::string data) {
         while(size > this->_size_remaining) {
             // Increment size remaining
             this->_size_remaining += this->_queue.front().size();
-            //printf("# TODO(remove, @add): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
+            printf("# TODO(remove, @FIFO): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_queue.front());
             this->_queue.pop();
             this->_debug_num_replacements++;
+            printf("#TODO (remove, @FIFO): Queue popped once, %d total removals", this->_debug_num_replacements);
         }
         // We have enough space now
         this->_queue.push(url);
@@ -78,11 +79,12 @@ int Cache::add(std::string url, std::string data) {
         while(size > this->_size_remaining) {
             // Increment size remaining
             this->_size_remaining += this->_queue.front().size();
-            //printf("# TODO(remove, @add): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
+            printf("# TODO(remove, @LRU): Size remaining increased by %d due to deletion of cache entry\n", this->_cache_data[ this->_vector[random_element] ].size());
             // Remove from data structures
             this->_cache_data.erase(this->_deck.back());
             this->_deck.pop_back();
             this->_debug_num_replacements++;
+            printf("#TODO (remove, @LRU): Deque popped once, %d total removals", this->_debug_num_replacements);
         }
         break;
         
@@ -95,7 +97,7 @@ int Cache::add(std::string url, std::string data) {
     // Go ahead and update main cache data structure
     this->_size_remaining -= size;
     this->_cache_data[url] = data;
-    //printf("# TODO(remove, @add): Size remaining DECREASED by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
+    printf("# TODO(remove, @ALL): Size remaining DECREASED by %d to %d due to addition of cache entry\n", size, this->_size_remaining);
 
     // Sanity check: floor size remaining at -1 for NOT_SET cache policies
     if(this->_size_remaining < -1) {

@@ -13,17 +13,17 @@ void batch_test(rpc::rpc_serviceClient* rpc_handle) {
     std::vector<std::string> batch_files;
 
     // Populate test variables
-    cache_policies.push_back(common::NOT_SET);
-    cache_policies.push_back(common::RANDOM);
+    //cache_policies.push_back(common::NOT_SET);
+    //cache_policies.push_back(common::RANDOM);
     cache_policies.push_back(common::FIFO);
     cache_policies.push_back(common::LRU);
 
     cache_sizes.push_back(common::HALF_MB);
-    cache_sizes.push_back(common::ONE_MB);
-    cache_sizes.push_back(common::THREE_MB);
+    //cache_sizes.push_back(common::ONE_MB);
+    //cache_sizes.push_back(common::THREE_MB);
 
     batch_files.push_back("batch1.txt");
-    batch_files.push_back("batch2.txt");
+    //batch_files.push_back("batch2.txt");
 
     // Other variables
     std::string return_value;
